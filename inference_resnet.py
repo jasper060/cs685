@@ -1,10 +1,11 @@
 import torch
-from torchvision import datasets, transforms
+from torchvision import datasets, transforms, models
 from torch.utils.data import DataLoader
 from PIL import Image
 from models.cnn1.cnn import CNN
 import torch.nn as nn
 import torch.optim as optim
+import random
 
 # classify an image with the given model path
 def classify_image(image_path, model, device):
@@ -27,9 +28,9 @@ def classify_image(image_path, model, device):
     ]
 
     transform = transforms.Compose([
-        transforms.Resize((128, 128)),
+        transforms.Resize((256, 256)),
         transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+        transforms.Normalize((0.5729, 0.5379, 0.5069), (0.3056, 0.3022, 0.3096))
     ])
     
     image = Image.open(image_path).convert('RGB')
@@ -46,12 +47,14 @@ def classify_image(image_path, model, device):
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # Predict and output classification for first 10 images.
+    # Predict and output classification for 10 randomly selected images.
     for i in range(1,11):
-        image_path = f"data/test/Image_{i}.jpg"
+        img_idx = random.randint(1, 5400)
+        image_path = f"data/test/Image_{img_idx}.jpg"
 
-        model = CNN().to(device)
-        model.load_state_dict(torch.load("cnn_model.pth"))
+        model = models.resnet152()
+        model.fc = nn.Linear(model.fc.in_features, 15)
+        model.load_state_dict(torch.load("models/resnet/resnet_model.pth",map_location=torch.device("cpu")))
 
         predicted_class_name = classify_image(image_path, model, device)
         print(f"{image_path}: {predicted_class_name}")
