@@ -38,7 +38,16 @@ The images in the test dataset do not have labels.
 
 ### Quickstart
 
+## Fine-Tune the Resnet Model
+
 1. Clone the repo
 2. Run the **train_resnet.py** file. You can adjust the number of epochs in the file. This will take some time to run locally on CPU.
 3. This will create a model on your local machine called **resnet_model.pth**
 4. Run the **inference_resnet.py** file. It defaults to testing the first 10 images in the **test** dataset. Since this dataset is not currently labeled you can look at the output class and visually inspect if it's correct.
+
+5. ## Fine-Tune the ConvNext Model
+
+1. Clone the repo
+2. Run the **train_convnext.py** file. You can adjust the number of epochs in the file. This will take some time to run locally on CPU.
+3. This will create a model on your local machine called **resnet_model.pth**
+4. Run the **inference_convnext.py** file. It defaults to testing the first 10 images in the **test** dataset. Since this dataset is not currently labeled you can look at the output class and visually inspect if it's correct.
