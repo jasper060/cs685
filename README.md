@@ -30,7 +30,7 @@ are:
 
 ### Data
 
-There is a training dataset and a test dataset. The training dataset contain 12,160 images and the test dataset contains 5,400 images.
+There is a training dataset and a test dataset. The training dataset contain 12,600 images and the test dataset contains 5,400 images.
 
 There is a file named **training_dataset.csv** which contains the filename and the label of each image in the training dataset.
 
