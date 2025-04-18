@@ -72,6 +72,7 @@ def main():
         
     # Modify last layer for fine-tuning
     model.fc = nn.Linear(model.fc.in_features, 15)
+    model = model.to(device)
 
     train_loader, test_loader = load_data(train_csv=train_csv, test_csv=test_csv, train_dir=train_dir, test_dir=test_dir)
     criterion = nn.CrossEntropyLoss()
