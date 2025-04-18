@@ -55,6 +55,7 @@ def main():
         model = models.resnet152()
         model.fc = nn.Linear(model.fc.in_features, 15)
         model.load_state_dict(torch.load("models/resnet/resnet_model.pth",map_location=torch.device("cpu")))
+        model.to(device)
 
         predicted_class_name = classify_image(image_path, model, device)
         print(f"{image_path}: {predicted_class_name}")
