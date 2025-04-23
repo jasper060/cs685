@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms, models
-
 from torch.utils.data import DataLoader
 from PIL import Image
 from models.cnn1.cnn import CNN
@@ -11,9 +10,13 @@ from utils.dataset import HumanActionDataset
 # LOAD DATA 
 def load_data(batch_size=64, train_csv='', test_csv='', train_dir='', test_dir=''):
     transform = transforms.Compose([
-        transforms.Resize((128, 128)),
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
         transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+        transforms.Normalize(
+            mean=[0.485, 0.456, 0.406],  # ImageNet mean
+            std=[0.229, 0.224, 0.225]    # ImageNet std
+            )
     ])
 
     train_dataset = HumanActionDataset(csv_file=train_csv, root_dir=train_dir, transform=transform)
@@ -24,10 +27,9 @@ def load_data(batch_size=64, train_csv='', test_csv='', train_dir='', test_dir='
     return train_loader, test_loader
 
 # TRAIN MODEL
-def train_model(model, train_loader, criterion, optimizer, device, epochs=10):
+def train_model(model, train_loader, criterion, optimizer, device, epochs=3):
     model.train()
     print("training model")
-    epoch_losses = []
     for epoch in range(epochs):
         running_loss = 0.0
         batch = 1
@@ -39,12 +41,10 @@ def train_model(model, train_loader, criterion, optimizer, device, epochs=10):
             loss.backward()
             optimizer.step()
             running_loss += loss.item()
-            print(f"finished training batch {batch} in epoch {epoch+1}")
+            print(f"finished training batch {batch} in epoch {epoch}")
             batch+=1
 
-        avg_loss = running_loss / len(train_loader)
-        epoch_losses.append(avg_loss)
-        print(f"Epoch {epoch + 1}/{epochs}, Loss: {avg_loss:.4f}")
+        print(f"Epoch {epoch + 1}/{epochs}, Loss: {running_loss / len(train_loader)}")
 
 # TEST MODEL
 def test_model(model, test_loader, device):
@@ -71,27 +71,27 @@ def main():
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    model = models.resnet152(weights='DEFAULT')
+    model = models.vgg16(pretrained=True)
 
     for param in model.parameters():
         param.requires_grad = False
         
-    # Modify last layer for fine-tuning
-    model.fc = nn.Linear(model.fc.in_features, 15)
+    # Modify the classifier for 15 output classes
+    model.classifier[6] = nn.Linear(model.classifier[6].in_features, 15)
+    model = model.to(device)
 
     train_loader, test_loader = load_data(train_csv=train_csv, test_csv=test_csv, train_dir=train_dir, test_dir=test_dir)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
-    losses = train_model(model, train_loader, criterion, optimizer, device)
-    #test_model(model, test_loader, device)
 
-    with open("resnet_trainLoss.txt", "w") as f:
-            for epoch, loss in enumerate(losses, 1):
-                f.write(f"Epoch {epoch}, Loss: {loss:.4f}\n")
-                
+    train_model(model, train_loader, criterion, optimizer, device)
+    
+
     # Save the trained model
-    torch.save(model.state_dict(), "resnet_model.pth")
-    print("Model saved as resnet_model.pth")
+    torch.save(model.state_dict(), "vgg16_model.pth")
+    print("Model saved as vgg16_model.pth")
+
+    test_model(model, test_loader, device)
 
 if __name__ == "__main__":
     main()
