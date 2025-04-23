@@ -1,0 +1,26 @@
+F1 Score (macro): 0.9177
+F1 Score (weighted): 0.9177
+
+Detailed Classification Report:
+
+                    precision    recall  f1-score   support
+
+           calling       0.82      0.94      0.87       126
+          clapping       0.91      0.92      0.91       126
+           cycling       1.00      0.99      1.00       126
+           dancing       0.94      0.95      0.95       126
+          drinking       0.90      0.96      0.93       126
+            eating       0.95      0.98      0.97       126
+         fightning       0.94      0.96      0.95       126
+           hugging       0.87      0.87      0.87       126
+          laughing       0.95      0.87      0.90       126
+listening_to_music       0.90      0.81      0.85       126
+           running       0.96      0.96      0.96       126
+           sitting       0.88      0.84      0.86       126
+          sleeping       0.97      0.96      0.96       126
+           texting       0.88      0.83      0.86       126
+      using_laptop       0.91      0.92      0.91       126
+
+          accuracy                           0.92      1890
+         macro avg       0.92      0.92      0.92      1890
+      weighted avg       0.92      0.92      0.92      1890

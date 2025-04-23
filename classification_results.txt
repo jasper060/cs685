@@ -1,0 +1,17 @@
+Correctly Classified Samples per Class:
+
+calling              118/126 (93.65%)
+clapping             116/126 (92.06%)
+cycling              125/126 (99.21%)
+dancing              120/126 (95.24%)
+drinking             121/126 (96.03%)
+eating               124/126 (98.41%)
+fightning            121/126 (96.03%)
+hugging              110/126 (87.30%)
+laughing             109/126 (86.51%)
+listening_to_music   102/126 (80.95%)
+running              121/126 (96.03%)
+sitting              106/126 (84.13%)
+sleeping             121/126 (96.03%)
+texting              105/126 (83.33%)
+using_laptop         116/126 (92.06%)

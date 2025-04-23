@@ -84,14 +84,14 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     losses = train_model(model, train_loader, criterion, optimizer, device)
     #test_model(model, test_loader, device)
+    
+    # Save the trained model
+    torch.save(model.state_dict(), "resnet_model.pth")
+    print("Model saved as resnet_model.pth")
 
     with open("resnet_trainLoss.txt", "w") as f:
             for epoch, loss in enumerate(losses, 1):
                 f.write(f"Epoch {epoch}, Loss: {loss:.4f}\n")
-                
-    # Save the trained model
-    torch.save(model.state_dict(), "resnet_model.pth")
-    print("Model saved as resnet_model.pth")
 
 if __name__ == "__main__":
     main()
