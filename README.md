@@ -36,7 +36,33 @@ There is a file named **training_dataset.csv** which contains the filename and t
 
 The images in the test dataset do not have labels.
 
+### Data2
+
+This is the second dataset. We might get rid of the first one, but for now we'll let it be. 
+
+This training set also contains around 12,500 images, with the same classes. The difference was that the dataset came pre-divided in training and test sets. I've added a script to create a validation set as well. Each folder *(test, train, validation)* contains 15 sub-directories corresponding to an action/class. I've also included a script (*createLabels.py*) which traverses through each folder and writes the filenames present within into a csv file, along with the class label and the label number. The csv is in the same format as the **Training_set.csv** found in the first dataset
+
 ### Quickstart
+
+## Set up virtual environment
+
+I've used Python 3.13. You might have a different Python version. This needs to be finalized later, so that everyone is using the same Python version.
+
+Run the following command to create a virtual environment: `python -m venv .venv`
+
+This will create a virtual environment called **.venv**. You can keep any name you want. The (.) at the beginning of the directory name is to signify that it should be a hidden folder. If you use a different name for your virtual env, add it to the *.gitignore* file so that you do not accidentally upload it to the remote repository
+
+If you're on Windows, activate the virtual env by typing in: `.venv/Scripts/activate`
+
+If you're on Linux/MacOS, activate by typing: `.venv/bin/activate`
+
+## Install required libraries
+
+**Do this step after you've activated the virtual environment**
+
+Type the following command to install libraries: `pip install -r requirements.txt`
+
+If you use any new libraries, add to to the requirments.txt file by typing the following command: `pip freeze > requirements.txt`
 
 ## Fine-Tune the Resnet Model
 
